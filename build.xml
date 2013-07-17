@@ -241,6 +241,14 @@
     * BUILD TARGETS                                 *
     *************************************************
     -->
+
+    <!-- Target: version -->
+    <target name="-version.update">
+        <propertyfile file="version.txt" comment="Version and build information about oekohof-barthel.de">
+            <entry key="buildnumber" type="int" default="0" operation="+" />
+            <entry key="builddate" type="date" value="now" pattern="dd.MM.yyyy HH:mm:ss" />
+        </propertyfile>
+    </target>
     
     <!-- Target: basics -->
     <target name="-basics.dev"
@@ -352,6 +360,7 @@
                    -jsdoc3"/>
     <target name="-build.production"
          depends="version,
+                    -version.update,
                      -intro,
                    -imagespng,
                    -imagesjpg,
@@ -980,7 +989,7 @@
                     <then>
                         <var name="optipng.executable" value="optipng"/>
                         <shellscript shell="bash" outputproperty="optipng.version">
-                          optipng -version | grep -Po 'OptiPNG\s(version\s)?\d\.\d' | grep -Po '\d\.\d'
+                          optipng -version | grep -o 'OptiPNG\sversion\s\d\.\d' | grep -o '\d\.\d'
                         </shellscript>
                         <echo message="You have optipng installed and your version is: ${optipng.version}"/>     
                     </then>
@@ -1186,13 +1195,18 @@
                                 </copy>
                             </then>
                         </if>
-
+                        
+                        <!-- Make sure nested directories exist -->
+                        <copy todir="./${dir.publish}/${relative.image.dir}">
+                            <dirset dir="${dir.source}/${relative.image.dir}"/>
+                        </copy>
+                        
                         <apply executable="${jpegtran.executable}" dest="./${dir.publish}/${relative.image.dir}" osfamily="${os.family}">
                             <fileset dir="${dir.source}/${relative.image.dir}" includes="**/*.jpg"  excludes="${images.bypass}, ${images.default.bypass}"/>
                             <arg value="-copy"/>
                             <arg value="${retain-meta-tags}"/>
                             <arg value="-optimize"/>
-                            <arg value="${images.opts.progressive}"/>
+                            <!--<arg value="${images.opts.progressive}"/>-->
                             <arg value="-outfile"/>
                             <targetfile/>
                             <srcfile/>
