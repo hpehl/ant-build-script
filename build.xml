@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE project>
-<project name="Boilerplate Build" default="build" basedir="../"><!-- one back since we're in build/ -->
+<project name="Boilerplate Build" default="build" basedir="../"> <!-- one back since we're in build/ -->
     
     <!-- load shell environment -->
     <property environment="ENV" />
