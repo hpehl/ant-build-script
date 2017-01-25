@@ -1280,7 +1280,7 @@
                             <dirset dir="${dir.source}/${relative.image.dir}"/>
                         </copy>
                         
-                        <apply executable="${jpegtran.executable}" dest="./${dir.publish}/${relative.image.dir}" osfamily="${os.family}">
+                        <apply executable="${jpegtran.executable}" dest="./${dir.publish}/${relative.image.dir}">
                             <fileset dir="${dir.source}/${relative.image.dir}" includes="**/*.jpg"  excludes="${images.bypass}, ${images.default.bypass}"/>
                             <arg value="-copy"/>
                             <arg value="${retain-meta-tags}"/>
